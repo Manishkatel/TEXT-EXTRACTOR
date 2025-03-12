@@ -1,0 +1,7 @@
+opencv-python
+pytesseract
+numpy
+Flask
+Pillow
+gunicorn
+requests

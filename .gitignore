@@ -1,0 +1,14 @@
+.dockerignore
+# Ignore virtual environments
+myvenv/
+__pycache__/
+
+# Ignore VS Code settings
+.vscode/
+
+# Ignore Conda environments
+.conda/
+
+# Ignore system files
+.DS_Store
+
