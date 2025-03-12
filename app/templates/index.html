@@ -47,6 +47,7 @@
 
     .file-field .btn {
       background-color: #893f45;
+      margin-right: 10px;
     }
 
     .file-path-wrapper input {
@@ -65,6 +66,7 @@
 
     #clear-button {
       background-color: #e53935;
+      margin-left: 10px; 
     }
 
     #clear-button:hover {
@@ -91,6 +93,7 @@
       background: #f9f9f9;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      position: relative; /* To position the copy button inside it */
     }
   
     .text-title {
@@ -140,6 +143,26 @@
         width: 100%;
       }
     }
+
+    /* Copy Button Styling */
+    #copy-button {
+      background-color: #ff9800;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      border: none;
+      font-size: 14px;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 10;
+    }
+
+    #copy-button:hover {
+      background-color: #f57c00;
+      transition: background-color 0.3s ease;
+    }
   </style>
 </head>
 
@@ -168,7 +191,7 @@
 
             <div class="row center">
               <button type="submit" class="btn-large">Extract</button>
-              <button type="button" id="clear-button" class="btn-large red">Clear</button>
+              <button type="button" id="clear-button" class="btn-large">Clear</button>
             </div>
           </div>
 
@@ -181,8 +204,16 @@
       </form>
     </div>
 
+    <!-- Display Error Message for Missing Image -->
+    {% if error_message %}
+      <p style="color: red; text-align: center;">{{ error_message }}</p>
+    {% endif %}
+
     <div class="extracted-text-container">
       {% if text %}
+        <!-- Copy Button -->
+        <button id="copy-button" title="Copy Text">Copy</button>
+
         <h3 class="text-title">Extracted Text</h3>
         <div class="text-content">
           {% for i in text %}
@@ -191,8 +222,10 @@
         </div>
       {% else %}
         <p class="no-text">No text extracted.</p>
-      {% endif %}
+      {% endif %} 
     </div> 
+
+  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script>
@@ -214,9 +247,43 @@
         document.getElementById("image_upload").value = "";
         document.getElementById("image_name").value = "";
         document.getElementById("image-preview").src = "{{ url_for('static', filename='images/white_bg.jpg') }}";
-        document.querySelectorAll(".extracted-text-container p").forEach(e => e.remove());
+        
+        // Clear the extracted text
+        document.querySelector(".text-content").innerHTML = "";
+        
+        // Hide the "Extracted Text" section and show the "No text extracted" message
+        document.querySelector(".extracted-text-container").innerHTML = `
+          <p class="no-text">No text extracted.</p>
+        `;
+        
+        // Remove the Copy button if it's visible
+        const copyButton = document.getElementById('copy-button');
+        if (copyButton) {
+            copyButton.remove();
+        }
+    };
+
+    // Function to copy extracted text to clipboard
+    document.getElementById("copy-button").onclick = function() {
+        const textContent = document.querySelector(".text-content").innerText;
+
+        // Create a temporary textarea element to copy the text
+        const tempTextArea = document.createElement("textarea");
+        tempTextArea.value = textContent;
+        document.body.appendChild(tempTextArea);
+
+        // Select and copy the text
+        tempTextArea.select();
+        document.execCommand("copy");
+
+        // Remove the temporary textarea from the DOM
+        document.body.removeChild(tempTextArea);
+
+        // Optionally, show a success message or change button text
+        alert("Text copied to clipboard!");
     };
   </script>
 </body>
 </html>
+
 
