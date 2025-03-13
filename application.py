@@ -10,6 +10,7 @@ import pytesseract
 
 pytesseract.pytesseract.tesseract_cmd = r"C:\Users\Manish\AppData\Local\Programs\Tesseract-OCR\tesseract.exe"
 
+ALLOWED_HOSTS = {"textextract.com"}
 # Route to home page
 @app.route("/", methods=["GET", "POST"])
 def index():
