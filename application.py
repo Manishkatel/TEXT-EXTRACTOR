@@ -1,5 +1,5 @@
 from app import app
-from flask import request, render_template, url_for
+from flask import request, render_template, url_for,abort
 import os
 import cv2
 import numpy as np
@@ -11,6 +11,13 @@ import pytesseract
 pytesseract.pytesseract.tesseract_cmd = r"C:\Users\Manish\AppData\Local\Programs\Tesseract-OCR\tesseract.exe"
 
 ALLOWED_HOSTS = {"textextract.com"}
+
+@app.before_request
+def limit_remote_addr():
+    host = request.host.split(":")[0]  # Extract domain without port
+    if host not in ALLOWED_HOSTS:
+        abort(403)  # Forbidden
+
 # Route to home page
 @app.route("/", methods=["GET", "POST"])
 def index():
