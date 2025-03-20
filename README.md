@@ -6,12 +6,12 @@ A web application that extracts text from images using Optical Character Recogni
 This web application allows users to upload an image, extract the text from the image using Optical Character Recognition (OCR), and display the text on the webpage. The app uses Flask for the backend, OpenCV for image processing, and Tesseract for OCR text extraction. The text is processed to remove unwanted symbols, making it cleaner and easier to read.
 
 This project is useful for:
-- Extracting text from images for documentation and note-taking.
-- Converting scanned images or photographs with text into editable content.
+- Extracting text from images for documentation and note-taking
+- Converting scanned images or photographs with text into editable content
 
 ### Target Audience:
-- Developers who want to integrate OCR in their projects.
-- Users who need to extract text from images quickly.
+- Developers who want to integrate OCR in their projects
+- Users who need to extract text from images quickly
 
 ## HighLights
 ![Demo 1](app/static/images/demo1.png)
